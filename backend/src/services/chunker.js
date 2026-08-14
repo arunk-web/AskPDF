@@ -1,5 +1,5 @@
 
-const chunkText = (text) => {
+const chunkedText = (text) => {
     const chunkSize = 1000;
     const chunkOverlap = 200;
 
@@ -14,5 +14,5 @@ const chunkText = (text) => {
     return chunks;
 }
 
-module.exports = chunkText;
+module.exports = chunkedText;
 
