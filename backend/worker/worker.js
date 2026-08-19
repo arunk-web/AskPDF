@@ -8,6 +8,7 @@ const Chunk = require('../src/models/Chunk')
 const extractTextfromPDF = require('../src/services/pdfParser')
 const chunkedText = require('../src/services/chunker');
 const generateEmbeddings = require('../src/services/embedder')
+const cleanupOrphanJobs = require('../src/services/cleanupService')
 
 const processQueue = async () => {
     while(true) {
@@ -57,3 +58,8 @@ const processQueue = async () => {
 }
 
 processQueue();
+
+setInterval(cleanupOrphanJobs,5*60*1000);
+
+
+
