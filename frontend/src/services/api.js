@@ -6,7 +6,7 @@ const uploadPDF = async (file) => {
     
     const response = await axios.post('http://localhost:5000/api/upload',formData);
     return response.data;
-    
+    // backend ka response object
 }
 
 const checkStatus = async (documentId) => {
