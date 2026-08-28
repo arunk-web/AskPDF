@@ -1,4 +1,5 @@
 import UploadBox from "./components/UploadBox";
+import ChatWindow from "./components/ChatWindow";
 import { useEffect,useState } from "react";
 import api from "./services/api";
 
@@ -26,7 +27,7 @@ function App(){
     <div>
       {!documentId && <UploadBox onUploadSuccess={handleUploadSuccess}/>}
       {documentId && status !== 'completed' && <p>Processing your document....</p>}
-      {status === 'completed' && <p>Ready to chat!</p>}
+      {status === 'completed' && <ChatWindow documentId={documentId}/>}
     </div>
   );
 }
