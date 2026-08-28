@@ -37,10 +37,6 @@ const sendChatMessage = async (documentId,question,onChunkReceived) => {
         const chunkText = decoder.decode(value);
         onChunkReceived(chunkText);
     }
-
-
 }
-
-
 
 export default {uploadPDF , checkStatus , sendChatMessage};
