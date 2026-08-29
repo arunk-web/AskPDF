@@ -26,7 +26,9 @@ const findReleventChunks = async(documentId,userQuestion) => {
     }
 
     similarityArray.sort((a,b) => b.score - a.score);
-    const filter = similarityArray.filter((item) => item.score >= 0.7);
+    console.log(similarityArray.slice(0, 3)); 
+    
+    const filter = similarityArray.filter((item) => item.score >= 0.5);
     const topChunks = filter.slice(0,5);
     return topChunks.map((item) => item.text);
 }
