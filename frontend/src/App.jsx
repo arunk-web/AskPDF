@@ -16,7 +16,7 @@ function App(){
 
     const interval = setInterval(async ()=> {
       const result = await api.checkStatus(documentId);
-      setStatus(result);
+      setStatus(result.status);
 
       if(result.status === 'completed' || result.status === 'failed'){
         clearInterval(interval);
