@@ -25,7 +25,8 @@ function ChatWindow({documentId}){
         await api.sendChatMessage(documentId,question,(chunkText) => {
             setmessage(prev => {
                 const updated = [...prev];
-                updated[updated.length-1].text += chunkText;
+                const lastMessage = updated[updated.length - 1];
+                updated[updated.length - 1] = { ...lastMessage, text: lastMessage.text + chunkText };
                 return updated;
             });
         });
