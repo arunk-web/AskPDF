@@ -24,9 +24,9 @@ function App(){
     },3000)
   },[documentId]);
   return(
-    <div>
+    <div className="min-h-screen bg-black text-white flex items-center justify-center">
       {!documentId && <UploadBox onUploadSuccess={handleUploadSuccess}/>}
-      {documentId && status !== 'completed' && <p>Processing your document....</p>}
+      {documentId && status !== 'completed' && <p className="text-neutral-400">Processing your document....</p>}
       {status === 'completed' && <ChatWindow documentId={documentId}/>}
     </div>
   );
