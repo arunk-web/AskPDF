@@ -1,17 +1,19 @@
 import axios from 'axios'
 
+const BASE_URL = 'https://askpdf-iy6y.onrender.com/api';
+
 const uploadPDF = async (file) => {
     const formData = new FormData();
     formData.append('pdf',file);
     
-    const response = await axios.post('http://localhost:5000/api/upload',formData);
+    const response = await axios.post('${BASE_URL}/upload',formData);
     return response.data;
     // backend ka response object
 }
 
 const checkStatus = async (documentId) => {
     try{
-        const response = await axios.get(`http://localhost:5000/api/status/${documentId}`);
+        const response = await axios.get(`${BASE_URL}/status/${documentId}`);
         return response.data;
     }
     catch(error){
@@ -20,7 +22,7 @@ const checkStatus = async (documentId) => {
 }
 
 const sendChatMessage = async (documentId,question,onChunkReceived) => {
-    const response = await fetch('http://localhost:5000/api/chat/stream',{
+    const response = await fetch('${BASE_URL}/chat/stream',{
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({documentId,question}),
