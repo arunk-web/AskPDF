@@ -41,4 +41,5 @@ const sendChatMessage = async (documentId,question,onChunkReceived) => {
     }
 }
 
+
 export default {uploadPDF , checkStatus , sendChatMessage};

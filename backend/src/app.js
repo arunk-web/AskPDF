@@ -8,8 +8,8 @@ const statusRoutes = require('./routes/statusRoutes');
 const app = express();
 
 app.use(cors({
-    origin: ['https://ask-pdf-blue.vercel.app/', 'http://localhost:5173'],
-    crendentials: true,
+    origin: ['https://ask-pdf-blue.vercel.app', 'http://localhost:5173'],
+    credentials: true,
 }));
 
 app.use(express.json());
