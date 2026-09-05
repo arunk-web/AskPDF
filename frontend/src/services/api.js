@@ -6,7 +6,7 @@ const uploadPDF = async (file) => {
     const formData = new FormData();
     formData.append('pdf',file);
     
-    const response = await axios.post('${BASE_URL}/upload',formData);
+    const response = await axios.post(`${BASE_URL}/upload`,formData);
     return response.data;
     // backend ka response object
 }
@@ -22,7 +22,7 @@ const checkStatus = async (documentId) => {
 }
 
 const sendChatMessage = async (documentId,question,onChunkReceived) => {
-    const response = await fetch('${BASE_URL}/chat/stream',{
+    const response = await fetch(`${BASE_URL}/chat/stream`,{
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({documentId,question}),
