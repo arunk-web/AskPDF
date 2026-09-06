@@ -17,20 +17,18 @@ const processQueue = async () => {
     while(true) {
         const Job = await redisClient.brpop('pdf-processing-queue',0);
 
-        // console.log(Job);
-        // ['pdf-processing-queue', '{"documentId":"...","filePath":"..."}']  we get array from this
-
         const requiredData = Job[1];
         const convertIntoObject = JSON.parse(requiredData);    //string->object
 
         const docId = convertIntoObject.documentId;
-        const docpath = convertIntoObject.filePath;
+        const fileBase64 = convertIntoObject.fileBase64;
+        const fileBuffer = Buffer.from(fileBase64, 'base64');
 
-        console.log(docId,docpath);
+        console.log(docId);
         
         try{
             await redisClient.hset(`job:${docId}`,'status','processing');
-            const extractedText = await extractTextfromPDF(docpath);
+            const extractedText = await extractTextfromPDF(fileBuffer);
             const chunkedArray = chunkedText(extractedText);
 
             let i = 0;
@@ -63,6 +61,3 @@ const processQueue = async () => {
 processQueue();
 
 setInterval(cleanupOrphanJobs,5*60*1000);
-
-
-
