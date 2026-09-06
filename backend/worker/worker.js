@@ -1,7 +1,10 @@
 require('dotenv').config();
 const connectDB = require('../src/config/db');
 
-connectDB();
+if (require.main === module) {
+    connectDB();
+}
+
 const redisClient = require('../src/config/redis');
 const Document = require('../src/models/Document');
 const Chunk = require('../src/models/Chunk')
