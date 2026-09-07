@@ -19,15 +19,27 @@ const uploadDocument = async(req,res) => {
         });
         console.log('JOB DATA STRINGIFIED');
 
-        await redisClient.lpush('pdf-processing-queue',jobData);
+        // await redisClient.lpush('pdf-processing-queue',jobData);
+        // console.log('REDIS LPUSH DONE');
+
+        const timeoutPromise = new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Redis timeout after 5 seconds')), 5000)
+        );
+
+        await Promise.race([
+            redisClient.lpush('pdf-processing-queue', jobData),
+            timeoutPromise
+        ]);
         console.log('REDIS LPUSH DONE');
+
 
         res.status(202).json({
             message:'File uploaded,processing started',
             documentId: newDocument._id,
         });
-        console.log('RESPONSE SENT');
         
+        console.log('RESPONSE SENT');
+
     } catch(error){
         console.error('upload error:' , error.message)
         res.status(500).json({
