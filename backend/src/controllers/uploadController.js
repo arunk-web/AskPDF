@@ -22,6 +22,8 @@ const uploadDocument = async(req,res) => {
         // await redisClient.lpush('pdf-processing-queue',jobData);
         // console.log('REDIS LPUSH DONE');
 
+        console.log('Redis client status:', redisClient.status);
+
         const timeoutPromise = new Promise((_, reject) => 
             setTimeout(() => reject(new Error('Redis timeout after 20 seconds')), 20000)
         );
