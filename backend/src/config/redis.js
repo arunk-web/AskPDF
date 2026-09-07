@@ -2,6 +2,8 @@ const Redis = require('ioredis');
 
 const redisClient = new Redis(process.env.REDIS_URL,{
     tls:{},
+    maxRetriesPerRequest: 3,
+    connectTimeout: 10000,
 });
 
 redisClient.on('connect', ()=> {
