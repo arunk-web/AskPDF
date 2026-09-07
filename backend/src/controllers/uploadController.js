@@ -17,12 +17,22 @@ const uploadDocument = async(req,res) => {
             documentId : newDocument._id,
             fileBase64: fileBase64,
         });
+
         console.log('JOB DATA STRINGIFIED');
-
-        // await redisClient.lpush('pdf-processing-queue',jobData);
-        // console.log('REDIS LPUSH DONE');
-
         console.log('Redis client status:', redisClient.status);
+
+        try {
+            const pingTimeout = new Promise((_, reject) =>
+                setTimeout(() => reject(new Error('ping timeout')), 3000)
+            );
+            await Promise.race([redisClient.ping(), pingTimeout]);
+            console.log('REDIS PING SUCCESS');
+        } catch (pingError) {
+            console.log('REDIS PING FAILED, forcing reconnect...');
+            redisClient.disconnect();
+            await redisClient.connect();
+            console.log('REDIS RECONNECTED');
+        }
 
         const timeoutPromise = new Promise((_, reject) => 
             setTimeout(() => reject(new Error('Redis timeout after 20 seconds')), 20000)
