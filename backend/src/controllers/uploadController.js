@@ -4,9 +4,11 @@ const redisClient = require('../config/redis');
 const uploadDocument = async(req,res) => {
     console.log('UPLOAD REQUEST RECEIVED');
     try{
+        console.log('ABOUT TO CREATE DOCUMENT');
         const newDocument = await Document.create({
             fileName: req.file.originalname,
         });
+        console.log('DOCUMENT CREATED SUCCESSFULLY');
 
         const fileBase64 = req.file.buffer.toString('base64');
 
