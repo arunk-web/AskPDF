@@ -23,7 +23,7 @@ const uploadDocument = async(req,res) => {
         // console.log('REDIS LPUSH DONE');
 
         const timeoutPromise = new Promise((_, reject) => 
-            setTimeout(() => reject(new Error('Redis timeout after 5 seconds')), 5000)
+            setTimeout(() => reject(new Error('Redis timeout after 20 seconds')), 20000)
         );
 
         await Promise.race([
@@ -37,7 +37,7 @@ const uploadDocument = async(req,res) => {
             message:'File uploaded,processing started',
             documentId: newDocument._id,
         });
-        
+
         console.log('RESPONSE SENT');
 
     } catch(error){
