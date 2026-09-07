@@ -2,55 +2,24 @@ const Document = require('../models/Document');
 const redisClient = require('../config/redis');
 
 const uploadDocument = async(req,res) => {
-    console.log('UPLOAD REQUEST RECEIVED');
     try{
-        console.log('ABOUT TO CREATE DOCUMENT');
         const newDocument = await Document.create({
             fileName: req.file.originalname,
         });
-        console.log('DOCUMENT CREATED SUCCESSFULLY');
 
         const fileBase64 = req.file.buffer.toString('base64');
-        console.log('BASE64 CONVERSION DONE, length:', fileBase64.length);
 
         const jobData = JSON.stringify({
             documentId : newDocument._id,
             fileBase64: fileBase64,
         });
 
-        console.log('JOB DATA STRINGIFIED');
-        console.log('Redis client status:', redisClient.status);
-
-        try {
-            const pingTimeout = new Promise((_, reject) =>
-                setTimeout(() => reject(new Error('ping timeout')), 3000)
-            );
-            await Promise.race([redisClient.ping(), pingTimeout]);
-            console.log('REDIS PING SUCCESS');
-        } catch (pingError) {
-            console.log('REDIS PING FAILED, forcing reconnect...');
-            redisClient.disconnect();
-            await redisClient.connect();
-            console.log('REDIS RECONNECTED');
-        }
-
-        const timeoutPromise = new Promise((_, reject) => 
-            setTimeout(() => reject(new Error('Redis timeout after 20 seconds')), 20000)
-        );
-
-        await Promise.race([
-            redisClient.lpush('pdf-processing-queue', jobData),
-            timeoutPromise
-        ]);
-        console.log('REDIS LPUSH DONE');
-
+        await redisClient.lpush('pdf-processing-queue', jobData);
 
         res.status(202).json({
             message:'File uploaded,processing started',
             documentId: newDocument._id,
         });
-
-        console.log('RESPONSE SENT');
 
     } catch(error){
         console.error('upload error:' , error.message)
