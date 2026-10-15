@@ -11,11 +11,11 @@ const normalize = (vector) => {
 const generateEmbeddings = async (chunk) => {
     try{
         
-        const embeddedChunk = await model.embedContent(chunk,{
+        const embeddedChunk =  await  model.embedContent(chunk,{
             outputDimensionality: 768,
         });
 
-        const embeddingValues = embeddedChunk.embedding.values;
+        const embeddingValues =    embeddedChunk.embedding.values;
         const normalizedValues = normalize(embeddingValues);
         return normalizedValues;
 
